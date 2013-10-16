@@ -1,20 +1,20 @@
 confBands <-
-function(x, confType=c('plain', 'log-log', 'asin-sqrt'), confLevel=c(0.90, 0.95, 0.99), type=c('ep', 'hall'), tL=NULL, tU=NULL){
-	confType <- tolower(substr(confType, 1, 1))
-	type <- tolower(substr(type, 1, 1))
+function(x, confType=c('plain', 'log-log', 'asin-sqrt'), confLevel=c(0.90, 0.95, 0.99), type=c('ep', 'hall'), tL, tU){
+	confType <- match.arg(confType)
+	type <- match.arg(type)
 	fit  <- survfit(x ~ 1)
 	n    <- length(x)/2
 	time <- summary(fit)$time
 	std.err <- summary(fit)$std.err
 	surv    <- summary(fit)$surv
-	if(is.null(tL)){
-		t.L <- time[1]
+	if(missing(tL)){
+		t.L <- head(time, 1)
 	} else {
 		temp <- time[time >= tL]
 		t.L  <- temp[length(temp)]
 	}
-	if(is.null(tU)){
-		t.U <- time[length(time)]
+	if(missing(tU)){
+		t.U <- max(x[x[ ,2] == 1, 1])
 	} else {
 		temp <- time[time <= tU]
 		t.U  <- temp[length(temp)]
@@ -32,29 +32,29 @@ function(x, confType=c('plain', 'log-log', 'asin-sqrt'), confLevel=c(0.90, 0.95,
 	#=====> pull value from table <====#
 	aU <- format(c(round(50*a.U)/50,0.01))[1]
 	aL <- format(c(round(50*a.L)/50,0.01))[1]
-	if(type[1] == 'h'){
+	if(type[1] == 'hall'){
 		if(confLevel[1] == 0.90){
-			data(hw.k10)
+			# data(hw.k10)
 			input <- hw.k10[aU,aL]
 		} else if(confLevel[1] == 0.95){
-			data(hw.k05)
+			# data(hw.k05)
 			input <- hw.k05[aU,aL]
 		} else if(confLevel[1] == 0.99){
-			data(hw.k01)
+			# data(hw.k01)
 			input <- hw.k01[aU,aL]
 		} else {
 			stop("Only confidence levels of 0.90, 0.95 and 0.99\nare allowed.")
 		}
 		m.fact <- input*(1+n*sigma.2)/sqrt(n)
-	} else if(type[1] == 'e'){
+	} else if(type[1] == 'ep'){
 		if(confLevel[1] == 0.90){
-			data(ep.c10)
+			# data(ep.c10)
 			input <- ep.c10[aU,aL]
 		} else if(confLevel[1] == 0.95){
-			data(ep.c05)
+			# data(ep.c05)
 			input <- ep.c05[aU,aL]
 		} else if(confLevel[1] == 0.99){
-			data(ep.c01)
+			# data(ep.c01)
 			input <- ep.c01[aU,aL]
 		} else {
 			stop("Only confidence levels of 0.90, 0.95 and 0.99\nare allowed.")
@@ -64,11 +64,11 @@ function(x, confType=c('plain', 'log-log', 'asin-sqrt'), confLevel=c(0.90, 0.95,
 		stop('The "type" variable is not recognized.')
 	}
 	CI <- matrix(NA, length(surv), 2)
-	if(confType[1] == 'l'){
+	if(confType[1] == 'log-log'){
 		theta  <- exp(m.fact/log(surv))
 		CI[,1] <- (surv)^(1/theta)
 		CI[,2] <- (surv)^(theta)
-	} else if(confType[1] == 'a'){
+	} else if(confType[1] == 'asin-sqrt'){
 		temp   <- asin(sqrt(surv)) - 0.5*m.fact*sqrt(surv/(1-surv))
 		lower  <- apply(cbind(rep(0, length(temp)), temp), 1, max)
 		CI[,1] <- (sin(lower))^2

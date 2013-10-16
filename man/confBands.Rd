@@ -1,16 +1,14 @@
 \name{confBands}
 \alias{confBands}
 \alias{lines.confBands}
-\title{
-Confidence bands for a survival curve
-}
+\title{Confidence bands for a survival curve}
 \description{
 A function for constructing confidence bands for a survival curve. This is in contrast to pointwise confidence intervals for the survival curve.
 }
 \usage{
 confBands(x, confType = c("plain", "log-log", "asin-sqrt"),
      confLevel = c(0.9, 0.95, 0.99), type = c("ep", "hall"),
-     tL = NULL, tU = NULL)
+     tL, tU)
 }
 \arguments{
   \item{x}{ An object of class \code{"Surv"}. }
@@ -18,11 +16,9 @@ confBands(x, confType = c("plain", "log-log", "asin-sqrt"),
   \item{confLevel}{ Confidence level. Only numerical values of \code{0.9}, \code{0.95}, or \code{0.99} are accepted. }
   \item{type}{ The type of method used to construct the confidence band. Available options are EP (\code{"ep"}) and Hall-Wellner (\code{"hall"}) confidence bands. Entering only the first letter of the option is sufficient.}
   \item{tL}{ A minimum time to be considered. The default is the first observed or censored time. }
-  \item{tU}{ A maximum time to be considered. The default it the last observed or censored time. }
+  \item{tU}{ A maximum time to be considered. The default it the last observed time. }
 }
-\details{
-See References.
-}
+\details{See References.}
 \value{
 Returns an object of class \code{"confBands"}, which is a list of three items:
 \item{time}{ A vector of times. }
@@ -32,11 +28,9 @@ Returns an object of class \code{"confBands"}, which is a list of three items:
 \references{
 Klein JP, Moeschberger ML (2003). Survival Analysis: Techniques for Censored and Truncated Data. Springer Verlag, New York.
 }
-\author{
-David M Diez
-}
+\author{David M Diez}
 \seealso{
-\code{\link{ep.c01}}, \code{\link{hw.k01}}
+\code{\link{relapse}}
 }
 \examples{
 #=====> 5. Kaplan-Meier confidence bands <=====#
@@ -55,10 +49,3 @@ legend(100, 0.3, legend=c('K-M survival estimate',
 #dev.off()
 detach(bmt)
 }
-\keyword{ confidence bands }
-\keyword{ Hall-Wellner confidence bands }
-\keyword{ Hall-Wellner }
-\keyword{ survival analysis }
-\keyword{ confidence level }
-\keyword{ EP confidence bands }
-\keyword{ EP }

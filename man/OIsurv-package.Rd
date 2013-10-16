@@ -2,9 +2,7 @@
 \alias{OIsurv-package}
 \alias{OIsurv}
 \docType{package}
-\title{
-Survival analysis tutorial, a supplement to the OpenIntro guide
-}
+\title{Survival analysis tutorial, a supplement to the OpenIntro guide}
 \description{
 This package supplements the \emph{Survival Analysis in R: A Tutorial} paper. The tutorial describes how to apply several basic survival analysis techniques in R using the \code{survival} package. Data sets from the \code{KMsurv} package are used in most examples; this package is a supplement to Klein and Moeschberger's textbook (see References).
 
@@ -14,9 +12,10 @@ All code used in the tutorial are included in the examples below.
 \tabular{ll}{
 Package: \tab OIsurv\cr
 Type: \tab Package\cr
-Version: \tab 0.1\cr
-Date: \tab 2010-10-15\cr
-License: \tab GPL-2\cr
+Version: \tab 0.2\cr
+Date: \tab 2013-10-16\cr
+License: \tab GPL (>= 2)\cr
+URL: \tab http://www.openintro.org/stat/surv.php\cr
 LazyLoad: \tab yes\cr
 }
 }
@@ -34,10 +33,7 @@ Klein JP, Moeschberger ML (2003). Survival Analysis: Techniques for Censored and
 ReliaSoft Corporation website (2006). "Data Classification."
 http://www.weibull.com/LifeDataWeb/data_classification.htm
 }
-\keyword{ package }
-\seealso{
-\code{\link{confBands}}
-}
+\seealso{\code{\link{confBands}}}
 \examples{
 #=====> 2. Three packages: survival, OIsurv, and KMsurv <=====#
 # install.packages("OIsurv")
